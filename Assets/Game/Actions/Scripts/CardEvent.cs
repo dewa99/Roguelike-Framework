@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CardEvent
+public class DrawEvent<TResult> : BaseEvent<TResult>
 {
-    
+    public int amount;    
 }
