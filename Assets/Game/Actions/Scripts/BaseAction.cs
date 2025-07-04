@@ -4,15 +4,15 @@ using UnityEngine;
 
 public abstract class BaseAction
 {
-    public abstract UniTask<TResponse> PerformAsync<TResponse>();
+    public abstract UniTask<T> PerformAsync<T>();
 }
 
 public class RequestResponse<T>
 {
-    public readonly UniTaskCompletionSource<T> tcs = new();
+    private readonly UniTaskCompletionSource<T> _tcs = new();
 
-    public void Respond(T value)
-    {
-        tcs.TrySetResult(value);
-    }
+    // Public task accessor
+    public UniTask<T> Task => _tcs.Task;
+
+    public void Respond(T value) => _tcs.TrySetResult(value);
 }

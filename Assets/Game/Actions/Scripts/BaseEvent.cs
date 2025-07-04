@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public abstract class BaseEvent<TResult>
+public abstract class BaseEvent<T>
 {
-    public RequestResponse<TResult> response;
+    public RequestResponse<T> Response { get; set; } = new();
+
 }

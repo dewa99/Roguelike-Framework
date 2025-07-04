@@ -1,6 +1,11 @@
 using UnityEngine;
 
-public class DrawEvent<TResult> : BaseEvent<TResult>
+public class DrawEvent<T> : BaseEvent<T>
 {
-    public int amount;    
+    public int Amount;    
+}
+
+public class PlayEvent<T> : BaseEvent<T>
+{
+    public string Name;
 }

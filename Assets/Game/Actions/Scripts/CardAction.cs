@@ -1,15 +1,27 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UniRx;
+
 public class DrawAction : BaseAction
 {
-    public int amount;
+    public int Amount;
 
-    public override async UniTask<TResult> PerformAsync<TResult>()
+    public override async UniTask<T> PerformAsync<T>()
     {
-        var response = new RequestResponse<TResult>();
-        var evt = new DrawEvent<TResult> { amount = amount , response = response };
+        var evt = new DrawEvent<T> { Amount = Amount };
         MessageBroker.Default.Publish(evt);
-        return await response.tcs.Task;
+        return await evt.Response.Task;
+    }
+}
+
+public class PlayAction : BaseAction
+{
+    public string Name;
+
+    public override async UniTask<T> PerformAsync<T>()
+    {
+        var evt = new PlayEvent<T> { Name = Name };
+        MessageBroker.Default.Publish(evt);
+        return await evt.Response.Task;
     }
 }
