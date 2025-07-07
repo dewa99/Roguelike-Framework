@@ -1,7 +1,11 @@
 using UnityEngine;
 
-public abstract class BaseEvent<T>
+namespace RogueLikeCardSystem
 {
-    public RequestResponse<T> Response { get; set; } = new();
+    public abstract class BaseEvent<T>
+    {
+        public RequestResponse<T> Response { get; set; } = new();
 
+    }
 }
+
