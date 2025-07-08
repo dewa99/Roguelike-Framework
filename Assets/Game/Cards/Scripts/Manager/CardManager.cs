@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
@@ -6,12 +7,11 @@ using UnityEngine;
 
 namespace RogueLikeCardSystem
 {
-    public partial class CardManager : MonoBehaviour
+    public partial class CardManager : MonoBehaviour, ICardManager
     {
-        [SerializeReference]
-        private List<BaseAction> Actions;
-        private void OnEnable()
+        public void Initialize()
         {
+            #region Event Bus
             MessageBroker.Default.Receive<DrawEvent<bool>>().Subscribe(async evt =>
             {
                 await DrawCard(evt.Amount);
@@ -20,31 +20,59 @@ namespace RogueLikeCardSystem
 
             MessageBroker.Default.Receive<PlayEvent<string>>().Subscribe(async evt =>
             {
-                await PlayCard(evt.Name);
+                await PlayCard(null);
                 evt.Response.Respond(evt.Name);
-                Debug.Log("Finished played card :" + evt.Name);
             });
+            #endregion
+        }
+        public UniTask CreateCard(CardSO card)
+        {
+            throw new NotImplementedException();
         }
 
-        private async void Start()
+        public async UniTask DiscardCard(ICardPresenter card)
         {
-            Debug.Log("Drawing...");
-            var draw = await new DrawAction() { Amount = 5 }.PerformAsync<bool>();
-            Debug.Log("Finished Drawing");
-
-            Debug.Log("Play card Miracle");
-            var play = await new PlayAction() { Name = "Dewa" }.PerformAsync<string>();
-
+            throw new NotImplementedException();
         }
 
-        private async UniTask DrawCard(int amount)
+        public async UniTask DiscardCard(int amount)
         {
-            await UniTask.Delay(5000);
+            throw new NotImplementedException();
         }
 
-        private async UniTask PlayCard(string card)
+        public async UniTask DiscardCard(Func<ICardPresenter, bool> condition)
         {
-            await UniTask.Delay(5000);
+            throw new NotImplementedException();
+        }
+
+        public async UniTask DrawCard(ICardPresenter card)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async UniTask DrawCard(int amount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async UniTask DrawCard(Func<ICardPresenter, bool> condition)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async UniTask PlayCard(ICardPresenter card)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async UniTask RemoveCard(ICardPresenter card)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async UniTask RemoveCard(int amount)
+        {
+            throw new NotImplementedException();
         }
     }
 }
