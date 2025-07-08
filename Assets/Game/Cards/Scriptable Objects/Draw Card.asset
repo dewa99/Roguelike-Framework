@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PreActions: []
   PlayActions:
-  - rid: 956994170074169418
+  - rid: 956994223684714497
   PlayedActions: []
   DiscardedAction: []
   references:
     version: 2
     RefIds:
-    - rid: 956994170074169418
-      type: {class: DrawAction, ns: , asm: Assembly-CSharp}
+    - rid: 956994223684714497
+      type: {class: DrawAction, ns: RogueLikeCardSystem, asm: Assembly-CSharp}
       data:
         Amount: 3
