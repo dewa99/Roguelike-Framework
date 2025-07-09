@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace RogueLikeCardSystem
+namespace RogueLikeCardSystem.Game.Interfaces
 {
     public interface IManager
     {

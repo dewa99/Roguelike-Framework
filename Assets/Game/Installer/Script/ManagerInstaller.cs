@@ -1,3 +1,4 @@
+using RogueLikeCardSystem.Game.Interfaces;
 using UnityEngine;
 using Zenject;
 
