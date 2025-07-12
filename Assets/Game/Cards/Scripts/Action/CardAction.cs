@@ -1,8 +1,9 @@
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 using UniRx;
+using RogueLikeCardSystem.Game.Actions;
+using RogueLikeCardSystem.Game.Actions.Events;
 
-namespace RogueLikeCardSystem
+namespace RogueLikeCardSystem.Game.Cards.Actions
 {
     public class DrawAction : BaseAction
     {

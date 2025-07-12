@@ -2,7 +2,7 @@ using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 
-namespace RogueLikeCardSystem
+namespace RogueLikeCardSystem.Game.Actions
 {
     [System.Serializable]
     public abstract class BaseAction

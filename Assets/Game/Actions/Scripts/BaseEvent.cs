@@ -1,6 +1,7 @@
+using RogueLikeCardSystem.Game.Actions;
 using UnityEngine;
 
-namespace RogueLikeCardSystem
+namespace RogueLikeCardSystem.Game.Actions.Events
 {
     public abstract class BaseEvent<T>
     {

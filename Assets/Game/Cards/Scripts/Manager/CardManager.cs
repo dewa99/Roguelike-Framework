@@ -1,7 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using RogueLikeCardSystem.Game.Actions.Events;
 using UniRx;
 using UnityEngine;
 

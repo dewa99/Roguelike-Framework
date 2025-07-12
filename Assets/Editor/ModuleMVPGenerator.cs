@@ -41,6 +41,7 @@ namespace RogueLikeCardSystem
             GenerateSingleFile(basePath, name, "Model", $"{name}Model", ModelTemplate);
             GenerateSingleFile(basePath, name, "View", $"{name}View", ViewTemplate);
             GenerateSingleFile(basePath, name, "Action", $"{name}Action", ActionTemplate);
+            GenerateSingleFile(basePath, name, "Action", $"{name}Event", EventTemplate);
 
             AssetDatabase.Refresh();
             EditorUtility.DisplayDialog("Module Generator",
@@ -168,6 +169,15 @@ namespace {Namespace(module, folder)}
 $@"namespace {Namespace(module, folder)}
 {{
     public class {className}
+    {{
+        // TODO: Define action behaviour
+    }}
+}}";
+
+        private static string EventTemplate(string className, string module, string folder) =>
+$@"namespace {Namespace(module, folder)}
+{{
+    public struct {className}
     {{
         // TODO: Define action behaviour
     }}

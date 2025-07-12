@@ -1,19 +1,37 @@
 using UnityEngine;
+using NaughtyAttributes;
+using SerializeReferenceEditor;
+using System.Collections.Generic;
+using RogueLikeCardSystem.Game.Actions;
+using RoguelikeCardSystem.Game.Resources.Manager;
+using RoguelikeCardSystem.Game.Resources.Model;
 
 namespace RogueLikeCardSystem
 {
-    public class CardModel : MonoBehaviour
+    
+    public class CardModel
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        public CardData data;
+        public CardModel(CardSO cardSO)
         {
-        
+            data = cardSO.Data;
         }
+    }
 
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
+    [System.Serializable]
+    public class CardData
+    {
+        public string Name;
+        [TextArea]
+        public string DescriptionText;
+        public int MaxUsage;
+        public ResourceType ResourceCost;
+        public int CostAmount;
+        [ShowAssetPreview(256, 256)]
+        public Sprite Illustration;
+        [Space(5)]
+        [SerializeReference]
+        [SR]
+        public List<BaseAction> PreActions, PlayActions, PlayedActions, DiscardedAction;
     }
 }

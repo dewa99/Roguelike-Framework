@@ -1,19 +1,37 @@
+using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using Coffee.UIEffects;
 
 namespace RogueLikeCardSystem
 {
-    public class CardView : MonoBehaviour
+    public class CardView : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+
+        public event Action OnClickEvent;
+        public event Action<bool> OnHoverEvent;
+        private bool canInteract;
+        [SerializeField] private UIEffectPreset selectedEffect, disabledEffect; 
+
+        public void UpdateData()
         {
-        
+
+        }
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if(canInteract)
+                OnClickEvent?.Invoke();
         }
 
-        // Update is called once per frame
-        void Update()
+        public void OnPointerEnter(PointerEventData eventData)
         {
-        
+            if (canInteract)
+                OnHoverEvent?.Invoke(true);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            
         }
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace RogueLikeCardSystem
+namespace RogueLikeCardSystem.Game.Actions.Events
 {
     public class DrawEvent<T> : BaseEvent<T>
     {
