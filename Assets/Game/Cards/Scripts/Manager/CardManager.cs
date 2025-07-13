@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using RoguelikeCardSystem.Game.Resources.Manager;
 using RogueLikeCardSystem.Game.Actions.Events;
+using RogueLikeCardSystem.Game.Cards.Presenter;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -14,6 +15,11 @@ namespace RogueLikeCardSystem
         [Inject] private readonly IResourcesManager resourceManager;
         public void Initialize()
         {
+            #region  Repository Initialization
+
+            Repository.Repository.CardRepository = new CardRepository();
+
+            #endregion
             #region Event Bus
             MessageBroker.Default.Receive<DrawEvent<bool>>().Subscribe(async evt =>
             {
@@ -28,9 +34,11 @@ namespace RogueLikeCardSystem
             });
             #endregion
         }
-        public UniTask CreateCard(CardSO card)
+        public ICardPresenter CreateCard(CardSO card)
         {
-            throw new NotImplementedException();
+            var presenter = new CardPresenter(null,null);
+            Repository.Repository.CardRepository.Add(presenter,CardPileType.Draw);
+            return null;
         }
 
         public async UniTask DiscardCard(ICardPresenter card)

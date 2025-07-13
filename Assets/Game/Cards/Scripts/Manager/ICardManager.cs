@@ -7,7 +7,7 @@ namespace RogueLikeCardSystem
 {
     public interface ICardManager : IManager
     {
-        UniTask CreateCard(CardSO card);
+        ICardPresenter CreateCard(CardSO card);
         UniTask DrawCard(ICardPresenter card);
         UniTask DrawCard(int amount);
         UniTask DrawCard(Func<ICardPresenter, bool> condition);

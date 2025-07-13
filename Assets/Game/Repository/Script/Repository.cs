@@ -1,9 +1,9 @@
 using UnityEngine;
 
-namespace RogueLikeCardSystem
+namespace RogueLikeCardSystem.Repository
 {
-    public class NewEmptyCSharpScript
+    public static class Repository
     {
-    
+        public static ICardRepository CardRepository { get; set; }
     }
 }

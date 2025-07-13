@@ -6,8 +6,8 @@ namespace RogueLikeCardSystem
 {
     public interface IRepository<T>
     {
-        void Add();
-        bool Remove();
+        void Add(T item);
+        bool Remove(T item);
         T Get();
         List<T> GetAll();
         bool RemoveAll();
