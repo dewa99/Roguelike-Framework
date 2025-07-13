@@ -1,4 +1,7 @@
-﻿namespace RoguelikeCardSystem.Game.Resources.Model
+﻿using System.Collections.Generic;
+using UniRx;
+
+namespace RoguelikeCardSystem.Game.Resources.Model
 {
     public enum ResourceType
     {
@@ -8,10 +11,20 @@
     }
     public class ResourcesModel
     {
-        public int Crystal { get; private set; }
+        public ReactiveDictionary<ResourceType, int> Resources ;
+
+        public ResourcesModel(Dictionary<ResourceType, int> resources)
+        {
+            Resources = new(resources);
+        }
         public void UpdateResource(ResourceType type, int amount)
         {
-            Crystal = amount;
+            Resources[type] = amount;
+        }
+        
+        public int GetResource(ResourceType type)
+        {
+            return Resources.TryGetValue(type, out var value) ? value : 0;
         }
 
     }

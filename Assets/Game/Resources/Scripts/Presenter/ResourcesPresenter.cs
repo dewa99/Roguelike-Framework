@@ -17,8 +17,13 @@ namespace RoguelikeCardSystem.Game.Resources.Presenter
 
         public async UniTask UpdateResource(ResourceType type, int amount)
         {
-            model.UpdateResource(ResourceType.Crystal, model.Crystal + amount);
-            await view.UpdateResource(type, model.Crystal, model.Crystal + amount);
+            model.UpdateResource(type, model.GetResource(type) + amount);
+            await view.UpdateResource(type, model.GetResource(type), model.GetResource(type) + amount);
+        }
+
+        public int GetResource(ResourceType type)
+        {
+            return model.GetResource(type);
         }
     }
 }

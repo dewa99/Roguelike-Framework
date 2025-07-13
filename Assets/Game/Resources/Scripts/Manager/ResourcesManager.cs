@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using RoguelikeCardSystem.Game.Resources.Action;
 using RoguelikeCardSystem.Game.Resources.Model;
 using RoguelikeCardSystem.Game.Resources.Presenter;
@@ -7,6 +8,8 @@ using RogueLikeCardSystem.Game.Actions.Events;
 using UniRx;
 using UnityEngine;
 using NaughtyAttributes;
+using RogueLikeCardSystem;
+using RoguelikeCardSystem.Game.Utilities;
 
 namespace RoguelikeCardSystem.Game.Resources.Manager
 {
@@ -14,6 +17,7 @@ namespace RoguelikeCardSystem.Game.Resources.Manager
     {
         private IResourcesPresenter presenter;
         [SerializeField] private ResourcesView view;
+        [SerializeField] private ResourceListSO starterResource;
 
         private void Start()
         {
@@ -21,7 +25,13 @@ namespace RoguelikeCardSystem.Game.Resources.Manager
         }
         public void Initialize()
         {
-            var model = new ResourcesModel();
+            Dictionary<ResourceType,int> resources = new();
+            foreach (var resource in starterResource.ResourceList)
+            {
+                resources.Add(resource.Data, resource.Value);
+            }
+            
+            var model = new ResourcesModel(resources);
             presenter = new ResourcesPresenter(model, view);
             #region Event bus
             MessageBroker.Default.Receive<UpdateResourceEvent<bool>>().Subscribe(async evt =>
@@ -38,12 +48,10 @@ namespace RoguelikeCardSystem.Game.Resources.Manager
             await presenter.UpdateResource(type, amount);
             
         }
-        [Button]
-        public async UniTask UpdateResource()
+        
+        public int GetResource(ResourceType type)
         {
-            Debug.Log("Start counting");
-            var update = await new UpdateResource() { Amount = 100, Type = ResourceType.Crystal }.PerformAsync<bool>();
-            Debug.Log("Finish counting");
+            return presenter.GetResource(type);
         }
     }
 

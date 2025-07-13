@@ -1,13 +1,17 @@
 using System;
 using Cysharp.Threading.Tasks;
+using NaughtyAttributes;
+using RoguelikeCardSystem.Game.Resources.Manager;
 using RogueLikeCardSystem.Game.Actions.Events;
 using UniRx;
 using UnityEngine;
+using Zenject;
 
 namespace RogueLikeCardSystem
 {
     public partial class CardManager : MonoBehaviour, ICardManager
     {
+        [Inject] private readonly IResourcesManager resourceManager;
         public void Initialize()
         {
             #region Event Bus
@@ -70,8 +74,13 @@ namespace RogueLikeCardSystem
         }
 
         public async UniTask RemoveCard(int amount)
-        {
+        {   
             throw new NotImplementedException();
+        }
+        [Button]
+        public void GetResourceValue()
+        {
+            Debug.Log(resourceManager.GetResource(RoguelikeCardSystem.Game.Resources.Model.ResourceType.Crystal));
         }
     }
 }

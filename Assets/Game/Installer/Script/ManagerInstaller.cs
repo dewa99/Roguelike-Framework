@@ -1,6 +1,8 @@
+using RoguelikeCardSystem.Game.Resources.Manager;
 using RogueLikeCardSystem.Game.Interfaces;
 using UnityEngine;
 using Zenject;
+
 
 namespace RogueLikeCardSystem
 {
@@ -9,7 +11,8 @@ namespace RogueLikeCardSystem
     {
         public override void InstallBindings()
         {
-            Container.Bind<IManager>().FromComponentsInHierarchy().AsCached();
+            Container.TryBindFromComponentInHierarchy<ICardManager,CardManager>();
+            Container.TryBindFromComponentInHierarchy<IResourcesManager,ResourcesManager>();
         }
     }
 }

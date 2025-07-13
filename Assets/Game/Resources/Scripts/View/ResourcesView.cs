@@ -12,10 +12,10 @@ namespace RoguelikeCardSystem.Game.Resources.View
 
         public async UniTask UpdateResource(ResourceType type ,int current, int amount)
         {
-            await AnimateTo(type, current, amount);
+            await AnimateTo(text,type, current, amount);
         }
 
-        public async UniTask AnimateTo(ResourceType type ,int startValue, int endValue)
+        public async UniTask AnimateTo(TextMeshProUGUI text, ResourceType type ,int startValue, int endValue)
         {
             Tween.StopAll(this);
             await Tween.Custom(
