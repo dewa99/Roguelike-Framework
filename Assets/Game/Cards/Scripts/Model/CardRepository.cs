@@ -11,6 +11,9 @@ namespace RogueLikeCardSystem
         public CardRepository()
         {
             Repository.Repository.CardRepository = this;
+            HandPile = new();
+            DrawPile = new();
+            DiscardPile = new();
         }
 
         public void Add(ICardPresenter item)
@@ -50,6 +53,25 @@ namespace RogueLikeCardSystem
                     DiscardPile.Remove(item);
                     break;
                 default:
+                    break;
+            }
+        }
+
+        public List<ICardPresenter> Get(CardPileType pileType)
+        {
+            switch (pileType)
+            {
+                case CardPileType.Draw:
+                    return DrawPile;
+                    break;
+                case CardPileType.Hand:
+                    return HandPile;
+                    break;
+                case CardPileType.Discard:
+                    return DiscardPile;
+                    break;
+                default:
+                    return null;
                     break;
             }
         }

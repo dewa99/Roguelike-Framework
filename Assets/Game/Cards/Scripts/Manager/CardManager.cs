@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using RoguelikeCardSystem.Game.Resources.Manager;
@@ -6,18 +7,27 @@ using RogueLikeCardSystem.Game.Actions.Events;
 using RogueLikeCardSystem.Game.Cards.Presenter;
 using UniRx;
 using UnityEngine;
+using UnityUtils;
 using Zenject;
 
-namespace RogueLikeCardSystem
+namespace RogueLikeCardSystem.Game.Cards.Manager
 {
     public partial class CardManager : MonoBehaviour, ICardManager
     {
         [Inject] private readonly IResourcesManager resourceManager;
+        [SerializeField] private CardView cardViewPrefab;
+        [SerializeField] private CardCollectionSO cardCollection;
+
+        private void Start()
+        {
+            Initialize();
+        }
+
         public void Initialize()
         {
             #region  Repository Initialization
 
-            Repository.Repository.CardRepository = new CardRepository();
+            new CardRepository();
 
             #endregion
             #region Event Bus
@@ -36,14 +46,16 @@ namespace RogueLikeCardSystem
         }
         public ICardPresenter CreateCard(CardSO card)
         {
-            var presenter = new CardPresenter(null,null);
+            var view = Instantiate(cardViewPrefab);
+            CardModel model = new(card);
+            var presenter = new CardPresenter(model,view);
             Repository.Repository.CardRepository.Add(presenter,CardPileType.Draw);
-            return null;
+            return presenter;
         }
 
         public async UniTask DiscardCard(ICardPresenter card)
         {
-            throw new NotImplementedException();
+            await card.OnDiscard();
         }
 
         public async UniTask DiscardCard(int amount)
@@ -58,12 +70,16 @@ namespace RogueLikeCardSystem
 
         public async UniTask DrawCard(ICardPresenter card)
         {
-            throw new NotImplementedException();
+            await card.OnDraw();
         }
 
         public async UniTask DrawCard(int amount)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < amount; i++)
+            {
+                var card = Repository.Repository.CardRepository.Get(CardPileType.Draw).Random();
+                await DrawCard(card);
+            }
         }
 
         public async UniTask DrawCard(Func<ICardPresenter, bool> condition)
@@ -73,7 +89,7 @@ namespace RogueLikeCardSystem
 
         public async UniTask PlayCard(ICardPresenter card)
         {
-            throw new NotImplementedException();
+            await card.OnPlay();
         }
 
         public async UniTask RemoveCard(ICardPresenter card)
@@ -85,11 +101,7 @@ namespace RogueLikeCardSystem
         {   
             throw new NotImplementedException();
         }
-        [Button]
-        public void GetResourceValue()
-        {
-            Debug.Log(resourceManager.GetResource(RoguelikeCardSystem.Game.Resources.Model.ResourceType.Crystal));
-        }
+        
     }
 }
 

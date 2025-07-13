@@ -1,5 +1,5 @@
+using RogueLikeCardSystem.Game.Cards.Manager;
 using RoguelikeCardSystem.Game.Resources.Manager;
-using RogueLikeCardSystem.Game.Interfaces;
 using UnityEngine;
 using Zenject;
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RogueLikeCardSystem
@@ -6,5 +7,6 @@ namespace RogueLikeCardSystem
     {
         void Add(ICardPresenter item, CardPileType pileType);
         void Remove(ICardPresenter item, CardPileType pileType);
+        List<ICardPresenter> Get(CardPileType pileType);    
     }
 }
