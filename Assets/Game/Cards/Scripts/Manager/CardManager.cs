@@ -4,7 +4,9 @@ using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using RoguelikeCardSystem.Game.Resources.Manager;
 using RogueLikeCardSystem.Game.Actions.Events;
+using RogueLikeCardSystem.Game.Cards.Model;
 using RogueLikeCardSystem.Game.Cards.Presenter;
+using RogueLikeCardSystem.Game.Utilities;
 using UniRx;
 using UnityEngine;
 using UnityUtils;
@@ -18,6 +20,8 @@ namespace RogueLikeCardSystem.Game.Cards.Manager
         [SerializeField] private CardView cardViewPrefab;
         [SerializeField] private CardCollectionSO cardCollection;
 
+        private StatModifier<int> firstModifier; 
+        
         private void Start()
         {
             Initialize();
@@ -100,6 +104,33 @@ namespace RogueLikeCardSystem.Game.Cards.Manager
         public async UniTask RemoveCard(int amount)
         {   
             throw new NotImplementedException();
+        }
+
+        public StatModifier<int> AddCardCostModifier(ICardPresenter card , int amount, StatModifierType type)
+        {
+            return card.AddCostModifier(amount, type);
+        }
+        [Button]
+        public void AddCardCostModifier()
+        {
+            var card = Repository.Repository.CardRepository.Get(CardPileType.Draw).First();
+            firstModifier = AddCardCostModifier(card, 3, StatModifierType.Additive);
+            Debug.Log(card.Model.data.CostAmount.Value + "modified" + card.Model.data.CostAmount.BaseValue);
+            AddCardCostModifier(card, 4, StatModifierType.Additive);
+            Debug.Log(card.Model.data.CostAmount.Value + "modified" + card.Model.data.CostAmount.BaseValue);
+        }
+        [Button]
+        public void CreateCard()
+        {
+            var card = CreateCard(cardCollection.cards.Random());
+            Debug.Log(card.Model.data.CostAmount.Value);
+        }
+        [Button]
+        public void RemoveCardCostModifier()
+        {
+            var card = Repository.Repository.CardRepository.Get(CardPileType.Draw).First();
+            card.Model.data.CostAmount.RemoveModifier(firstModifier);
+            Debug.Log(card.Model.data.CostAmount.Value + "modified" + card.Model.data.CostAmount.BaseValue);
         }
         
     }

@@ -1,11 +1,15 @@
 using System;
 using Cysharp.Threading.Tasks;
+using RogueLikeCardSystem.Game.Cards.Model;
+using RogueLikeCardSystem.Game.Utilities;
 using UnityEngine;
 
 namespace RogueLikeCardSystem
 {
     public interface ICardPresenter
     {
+        CardModel Model {get; set;}
+        CardView View {get; set;}
         event Action<ICardPresenter> OnClicked;
         event Action<ICardPresenter, bool> OnHovered;
         void OnClick();
@@ -13,5 +17,6 @@ namespace RogueLikeCardSystem
         UniTask OnDraw();
         UniTask OnDiscard();
         UniTask OnPlay();
+        StatModifier<int> AddCostModifier(int amount, StatModifierType type);
     }
 }

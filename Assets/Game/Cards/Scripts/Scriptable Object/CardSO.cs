@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using SerializeReferenceEditor;
-using NaughtyAttributes; 
+using NaughtyAttributes;
+using OdinSerializer;
+using RogueLikeCardSystem.Game.Cards.Model;
 
 namespace RogueLikeCardSystem
 {

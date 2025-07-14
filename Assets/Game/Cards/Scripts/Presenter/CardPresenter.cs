@@ -1,20 +1,22 @@
 using System;
 using Cysharp.Threading.Tasks;
+using RogueLikeCardSystem.Game.Cards.Model;
+using RogueLikeCardSystem.Game.Utilities;
 using UnityEngine;
 
 namespace RogueLikeCardSystem.Game.Cards.Presenter
 {
     public class CardPresenter : ICardPresenter
     {
-        private CardModel model;
-        private CardView view;
+        public CardModel Model {get; set;}
+        public CardView View {get; set;}
         public event Action<ICardPresenter> OnClicked;
         public event Action<ICardPresenter, bool> OnHovered;
 
         public CardPresenter(CardModel model, CardView view)
         {
-            this.model = model;
-            this.view = view;
+            this.Model = model;
+            this.View = view;
             view.OnClickEvent += OnClick;
             view.OnHoverEvent += OnHover;
         }
@@ -42,6 +44,13 @@ namespace RogueLikeCardSystem.Game.Cards.Presenter
         public async UniTask OnPlay()
         {
             await UniTask.Delay(1000);
+        }
+
+        public StatModifier<int> AddCostModifier(int amount, StatModifierType type)
+        {
+            var modifier = new StatModifier<int>(amount, type);
+            Model.data.CostAmount.AddModifier(modifier);
+            return modifier;
         }
     }
 }
