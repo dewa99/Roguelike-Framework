@@ -15,11 +15,15 @@ MonoBehaviour:
   Data:
     Name: Cat Draw
     DescriptionText: Draw +3
-    MaxUsage:
-      baseValue: 2
+    Stats:
+      items:
+      - data: 0
+        value:
+          baseValue: 2
+      - data: 1
+        value:
+          baseValue: 7
     ResourceCost: 0
-    CostAmount:
-      baseValue: 3
     Illustration: {fileID: -6555575649291838755, guid: e4ffe1a6e70df4201b253ba3e554acf8, type: 3}
     PreActions: []
     PlayActions: []

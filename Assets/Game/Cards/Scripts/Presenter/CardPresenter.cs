@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using RogueLikeCardSystem.Game.Cards.Model;
 using RogueLikeCardSystem.Game.Utilities;
@@ -46,11 +47,21 @@ namespace RogueLikeCardSystem.Game.Cards.Presenter
             await UniTask.Delay(1000);
         }
 
-        public StatModifier<int> AddCostModifier(int amount, StatModifierType type)
+        public StatModifier<int> AddModifier(int amount, StatModifierType type, CardStatType stat)
         {
             var modifier = new StatModifier<int>(amount, type);
-            Model.data.CostAmount.AddModifier(modifier);
+            Model.data.Stats.Where(x => x.Data == stat).FirstOrDefault().Value.AddModifier(modifier);
             return modifier;
+        }
+        
+        public void RemoveModifier(CardStatType type, StatModifier<int> modifier) 
+        {
+            Model.data.Stats.Where(x => x.Data == type).FirstOrDefault().Value.RemoveModifier(modifier);
+        }
+        
+        public void ClearModifier(CardStatType type) 
+        {
+            Model.data.Stats.Where(x => x.Data == type).FirstOrDefault().Value.ClearModifiers();
         }
     }
 }

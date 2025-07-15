@@ -19,6 +19,7 @@ namespace RogueLikeCardSystem.Game.Cards.Manager
         [Inject] private readonly IResourcesManager resourceManager;
         [SerializeField] private CardView cardViewPrefab;
         [SerializeField] private CardCollectionSO cardCollection;
+        [SerializeField] private Transform handContainer;
 
         private StatModifier<int> firstModifier; 
         
@@ -29,24 +30,8 @@ namespace RogueLikeCardSystem.Game.Cards.Manager
 
         public void Initialize()
         {
-            #region  Repository Initialization
-
+            Subscribe();
             new CardRepository();
-
-            #endregion
-            #region Event Bus
-            MessageBroker.Default.Receive<DrawEvent<bool>>().Subscribe(async evt =>
-            {
-                await DrawCard(evt.Amount);
-                evt.Response.Respond(true);
-            });
-
-            MessageBroker.Default.Receive<PlayEvent<string>>().Subscribe(async evt =>
-            {
-                await PlayCard(null);
-                evt.Response.Respond(evt.Name);
-            });
-            #endregion
         }
         public ICardPresenter CreateCard(CardSO card)
         {
@@ -106,33 +91,6 @@ namespace RogueLikeCardSystem.Game.Cards.Manager
             throw new NotImplementedException();
         }
 
-        public StatModifier<int> AddCardCostModifier(ICardPresenter card , int amount, StatModifierType type)
-        {
-            return card.AddCostModifier(amount, type);
-        }
-        [Button]
-        public void AddCardCostModifier()
-        {
-            var card = Repository.Repository.CardRepository.Get(CardPileType.Draw).First();
-            firstModifier = AddCardCostModifier(card, 3, StatModifierType.Additive);
-            Debug.Log(card.Model.data.CostAmount.Value + "modified" + card.Model.data.CostAmount.BaseValue);
-            AddCardCostModifier(card, 4, StatModifierType.Additive);
-            Debug.Log(card.Model.data.CostAmount.Value + "modified" + card.Model.data.CostAmount.BaseValue);
-        }
-        [Button]
-        public void CreateCard()
-        {
-            var card = CreateCard(cardCollection.cards.Random());
-            Debug.Log(card.Model.data.CostAmount.Value);
-        }
-        [Button]
-        public void RemoveCardCostModifier()
-        {
-            var card = Repository.Repository.CardRepository.Get(CardPileType.Draw).First();
-            card.Model.data.CostAmount.RemoveModifier(firstModifier);
-            Debug.Log(card.Model.data.CostAmount.Value + "modified" + card.Model.data.CostAmount.BaseValue);
-        }
-        
     }
 }
 

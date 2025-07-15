@@ -4,7 +4,9 @@ using SerializeReferenceEditor;
 using System.Collections.Generic;
 using RogueLikeCardSystem.Game.Actions;
 using RoguelikeCardSystem.Game.Resources.Model;
+using RoguelikeCardSystem.Game.Utilities;
 using RogueLikeCardSystem.Game.Utilities;
+using UnityUtils;
 
 namespace RogueLikeCardSystem.Game.Cards.Model
 {
@@ -23,9 +25,8 @@ namespace RogueLikeCardSystem.Game.Cards.Model
         public string Name;
         [TextArea]
         public string DescriptionText;
-        public Stat<int> MaxUsage;
+        public ObjectPairList<CardStatType,Stat<int>> Stats;
         public ResourceType ResourceCost;
-        public Stat<int> CostAmount;
         [ShowAssetPreview(256, 256)]
         public Sprite Illustration;
         [Space(5)]
@@ -37,14 +38,27 @@ namespace RogueLikeCardSystem.Game.Cards.Model
         {
             Name = data.Name;
             DescriptionText = data.DescriptionText;
-            MaxUsage = new (data.MaxUsage.BaseValue);
+
+            ObjectPairList<CardStatType, Stat<int>> stats = new();
+            data.Stats.ForEach(x =>
+            {
+                Stat<int> stat = new (x.Value.BaseValue);
+                stats.Add(new(x.Data, stat));
+            });
+            
+            Stats = stats;
             ResourceCost = data.ResourceCost;
             Illustration = data.Illustration;
-            CostAmount = new (data.CostAmount.BaseValue);
             PreActions = new (data.PreActions);
             PlayActions = new (data.PlayActions);
             PlayedActions = new(data.PlayedActions);
             DiscardedAction = new (data.DiscardedAction);
         }
+    }
+
+    public enum CardStatType
+    {
+        Usage,
+        Cost
     }
 }
