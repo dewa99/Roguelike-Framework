@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace RogueLikeCardSystem
 {
-    public class HasAmountCard : GameCondition
+    public class HasAmountCard : BaseCondition
     {
         public override bool Check()
         {

@@ -27,8 +27,14 @@ namespace RogueLikeCardSystem.Game.Cards.Model
         public string DescriptionText;
         public ObjectPairList<CardStatType,Stat<int>> Stats;
         public ResourceType ResourceCost;
+        public int ResourceCostValue;
+        public bool WaitForActionToComplete;
         [ShowAssetPreview(256, 256)]
         public Sprite Illustration;
+        [Space(5)]
+        [SerializeReference]
+        [SR]
+        public List<BaseCondition> PlayConditions;
         [Space(5)]
         [SerializeReference]
         [SR]
@@ -49,6 +55,9 @@ namespace RogueLikeCardSystem.Game.Cards.Model
             Stats = stats;
             ResourceCost = data.ResourceCost;
             Illustration = data.Illustration;
+            WaitForActionToComplete = data.WaitForActionToComplete;
+            ResourceCostValue = data.ResourceCostValue; 
+            PlayConditions = new(data.PlayConditions);
             PreActions = new (data.PreActions);
             PlayActions = new (data.PlayActions);
             PlayedActions = new(data.PlayedActions);

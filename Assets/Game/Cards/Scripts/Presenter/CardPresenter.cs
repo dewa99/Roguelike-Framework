@@ -11,7 +11,7 @@ namespace RogueLikeCardSystem.Game.Cards.Presenter
     {
         public CardModel Model {get; set;}
         public CardView View {get; set;}
-        public event Action<ICardPresenter> OnClicked;
+        public event Func<ICardPresenter, UniTask> OnClicked;
         public event Action<ICardPresenter, bool> OnHovered;
 
         public CardPresenter(CardModel model, CardView view)
@@ -34,17 +34,37 @@ namespace RogueLikeCardSystem.Game.Cards.Presenter
 
         public async UniTask OnDraw()
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public async UniTask OnDiscard()
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public async UniTask OnPlay()
         {
-            await UniTask.Delay(1000);
+            Model.data.PlayConditions.ForEach(x =>
+            {
+                if (!x.Check())
+                {
+                    return;
+                }
+            });
+            Model.data.PreActions.ForEach(async x =>
+            {
+                await x.PerformAsync<bool>();
+            });
+            Model.data.PlayActions.ForEach(async x =>
+            {
+                await x.PerformAsync<bool>();
+            });
+            Model.data.PlayedActions.ForEach(async x =>
+            {
+                await x.PerformAsync<bool>();
+            });
+            
+            await UniTask.CompletedTask;
         }
 
         public StatModifier<int> AddModifier(int amount, StatModifierType type, CardStatType stat)

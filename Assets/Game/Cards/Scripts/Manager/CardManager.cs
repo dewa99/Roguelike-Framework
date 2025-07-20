@@ -6,6 +6,7 @@ using RoguelikeCardSystem.Game.Resources.Manager;
 using RogueLikeCardSystem.Game.Actions.Events;
 using RogueLikeCardSystem.Game.Cards.Model;
 using RogueLikeCardSystem.Game.Cards.Presenter;
+using RoguelikeCardSystem.Game.Resources.Action;
 using RogueLikeCardSystem.Game.Utilities;
 using UniRx;
 using UnityEngine;
@@ -20,8 +21,6 @@ namespace RogueLikeCardSystem.Game.Cards.Manager
         [SerializeField] private CardView cardViewPrefab;
         [SerializeField] private CardCollectionSO cardCollection;
         [SerializeField] private Transform handContainer;
-
-        private StatModifier<int> firstModifier; 
         
         private void Start()
         {
@@ -33,12 +32,13 @@ namespace RogueLikeCardSystem.Game.Cards.Manager
             Subscribe();
             new CardRepository();
         }
-        public ICardPresenter CreateCard(CardSO card)
+        public ICardPresenter CreateCard(CardSO card, Transform parent)
         {
-            var view = Instantiate(cardViewPrefab);
+            var view = Instantiate(cardViewPrefab, parent);
             CardModel model = new(card);
             var presenter = new CardPresenter(model,view);
             Repository.Repository.CardRepository.Add(presenter,CardPileType.Draw);
+            view.SetInactive();
             return presenter;
         }
 
@@ -49,16 +49,22 @@ namespace RogueLikeCardSystem.Game.Cards.Manager
 
         public async UniTask DiscardCard(int amount)
         {
-            throw new NotImplementedException();
+            for (var i = 0; i < amount; i++)
+            {
+                await Repository.Repository.CardRepository.Get(CardPileType.Hand).First().OnDiscard();
+            }
         }
-
+        
         public async UniTask DiscardCard(Func<ICardPresenter, bool> condition)
         {
-            throw new NotImplementedException();
+            
         }
 
         public async UniTask DrawCard(ICardPresenter card)
         {
+            card.OnClicked -= PlayCard;
+            card.OnClicked += PlayCard;
+            card.View.SetActive();
             await card.OnDraw();
         }
 
@@ -78,7 +84,9 @@ namespace RogueLikeCardSystem.Game.Cards.Manager
 
         public async UniTask PlayCard(ICardPresenter card)
         {
+           
             await card.OnPlay();
+            await new UpdateResource(){Type = card.Model.data.ResourceCost, Amount = -card.Model.data.ResourceCostValue}.PerformAsync<bool>();
         }
 
         public async UniTask RemoveCard(ICardPresenter card)
@@ -90,7 +98,12 @@ namespace RogueLikeCardSystem.Game.Cards.Manager
         {   
             throw new NotImplementedException();
         }
-
+        [Button]
+        public async UniTask CreateCard()
+        {
+            var card = CreateCard(cardCollection.cards.First(),handContainer);
+            await DrawCard(card);
+        }
     }
 }
 

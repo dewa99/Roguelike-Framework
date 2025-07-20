@@ -24,16 +24,14 @@ MonoBehaviour:
         value:
           baseValue: 7
     ResourceCost: 0
+    ResourceCostValue: 2
+    WaitForActionToComplete: 0
     Illustration: {fileID: -6555575649291838755, guid: e4ffe1a6e70df4201b253ba3e554acf8, type: 3}
+    PlayConditions: []
     PreActions: []
     PlayActions: []
-    PlayedActions:
-    - rid: 956994309281284170
+    PlayedActions: []
     DiscardedAction: []
   references:
     version: 2
-    RefIds:
-    - rid: 956994309281284170
-      type: {class: DrawAction, ns: RogueLikeCardSystem.Game.Cards.Actions, asm: Assembly-CSharp}
-      data:
-        Amount: 3
+    RefIds: []

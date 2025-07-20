@@ -25,5 +25,10 @@ namespace RoguelikeCardSystem.Game.Resources.Presenter
         {
             return model.GetResource(type);
         }
+
+        public async UniTask UpdateView()
+        {
+            await view.UpdateResource(ResourceType.Crystal, model.GetResource(ResourceType.Crystal), model.GetResource(ResourceType.Crystal) );
+        }
     }
 }

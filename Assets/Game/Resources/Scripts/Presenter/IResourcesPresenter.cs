@@ -8,5 +8,6 @@ namespace RoguelikeCardSystem.Game.Resources.Presenter
     {
         UniTask UpdateResource(ResourceType type, int amount);
         int GetResource(ResourceType type);
+        UniTask UpdateView();
     }
 }

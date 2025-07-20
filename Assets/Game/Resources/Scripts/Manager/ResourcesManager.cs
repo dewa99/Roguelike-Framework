@@ -33,6 +33,7 @@ namespace RoguelikeCardSystem.Game.Resources.Manager
             
             var model = new ResourcesModel(resources);
             presenter = new ResourcesPresenter(model, view);
+            presenter.UpdateView();
             #region Event bus
             MessageBroker.Default.Receive<UpdateResourceEvent<bool>>().Subscribe(async evt =>
             {

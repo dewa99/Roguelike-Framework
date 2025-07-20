@@ -10,7 +10,7 @@ namespace RogueLikeCardSystem
     {
         CardModel Model {get; set;}
         CardView View {get; set;}
-        event Action<ICardPresenter> OnClicked;
+        event Func<ICardPresenter, UniTask> OnClicked;
         event Action<ICardPresenter, bool> OnHovered;
         void OnClick();
         void OnHover(bool state);

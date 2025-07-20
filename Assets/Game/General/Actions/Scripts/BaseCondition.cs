@@ -4,7 +4,7 @@ using UnityEngine;
 namespace RogueLikeCardSystem
 {
     [System.Serializable]
-    public abstract class GameCondition
+    public abstract class BaseCondition
     {
         public AmountCompareEnum amountCompareEnum;
 
@@ -20,9 +20,13 @@ namespace RogueLikeCardSystem
             {
                 try
                 {
-                    float v1 = Convert.ToSingle(value1);
-                    float v2 = Convert.ToSingle(value2);
-
+                    float v1 = 0;
+                    float v2 = 0;
+                    if (!(amountCompareEnum == AmountCompareEnum.Contains || amountCompareEnum == AmountCompareEnum.NotContains))
+                    {
+                        v1 = Convert.ToSingle(value1);
+                        v2 = Convert.ToSingle(value2);
+                    }
                     switch (amountCompareEnum)
                     {
                         case AmountCompareEnum.LessThan:
@@ -67,7 +71,9 @@ namespace RogueLikeCardSystem
             LessThanEqual,
             GreaterThan,
             GreaterThanEqual,
-            Enough
+            Enough,
+            Contains,
+            NotContains
         }
     }
 }

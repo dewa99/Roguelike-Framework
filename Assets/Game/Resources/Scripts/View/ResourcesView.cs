@@ -9,7 +9,7 @@ namespace RoguelikeCardSystem.Game.Resources.View
     public class ResourcesView : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI text;
-
+        
         public async UniTask UpdateResource(ResourceType type ,int current, int amount)
         {
             await AnimateTo(text,type, current, amount);
