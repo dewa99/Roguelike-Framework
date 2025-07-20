@@ -2,8 +2,10 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Coffee.UIEffects;
+using Cysharp.Threading.Tasks;
 using Flexalon;
 using PrimeTween;
+using UnityEngine.Serialization;
 
 namespace RogueLikeCardSystem
 {
@@ -13,23 +15,23 @@ namespace RogueLikeCardSystem
         public event Action<bool> OnHoverEvent;
         [SerializeField] private UIEffectPreset selectedEffect, disabledEffect;
         private FlexalonInteractable interactableElement;
-        bool isDragging = false;
-        bool canInteract = true;
+        public bool IsDragging = false;
+        public bool CanInteract = true;
         private void Start()
         {
             #region Interactions
             interactableElement = GetComponent<FlexalonInteractable>();
             interactableElement.DragStart.AddListener(x =>
             {
-                isDragging = true;
+                IsDragging = true;
             });
             interactableElement.DragEnd.AddListener(x =>
             {
-                isDragging = false; 
+                IsDragging = false; 
             });
             interactableElement.HoverStart.AddListener(x =>
             {
-                if (!isDragging)
+                if (!IsDragging)
                 {
                     OnHoverEvent?.Invoke(true);
                     Sequence.Create()
@@ -38,7 +40,7 @@ namespace RogueLikeCardSystem
             });
             interactableElement.HoverEnd.AddListener(x =>
             {
-                if (!isDragging)
+                if (!IsDragging)
                 {
                     Sequence.Create()
                         .Group(Tween.LocalPositionY(this.transform, 00f, 0.3f, Ease.InQuad))
@@ -47,7 +49,7 @@ namespace RogueLikeCardSystem
             });
             interactableElement.Clicked.AddListener(x =>
             {
-                if(canInteract)
+                if(CanInteract)
                     OnClickEvent?.Invoke();
             });
             #endregion
@@ -58,5 +60,10 @@ namespace RogueLikeCardSystem
 
         }
 
+        public async UniTask RunPlayAnimation()
+        {
+            await Sequence.Create()
+                .Group(Tween.ShakeLocalPosition(transform, new Vector3(5f,5f,5f) ,1f, 0.3f));
+        }
     }
 }

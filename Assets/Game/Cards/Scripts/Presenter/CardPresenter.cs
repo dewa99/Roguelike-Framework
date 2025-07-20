@@ -51,6 +51,7 @@ namespace RogueLikeCardSystem.Game.Cards.Presenter
                     return;
                 }
             });
+            View.CanInteract = false;
             Model.data.PreActions.ForEach(async x =>
             {
                 await x.PerformAsync<bool>();
@@ -63,8 +64,10 @@ namespace RogueLikeCardSystem.Game.Cards.Presenter
             {
                 await x.PerformAsync<bool>();
             });
-            
+
+            await View.RunPlayAnimation();
             await UniTask.CompletedTask;
+
         }
 
         public StatModifier<int> AddModifier(int amount, StatModifierType type, CardStatType stat)
