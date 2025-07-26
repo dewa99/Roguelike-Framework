@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using RogueLikeCardSystem.Game.Cards.Model;
 using RogueLikeCardSystem.Game.Utilities;
 using UnityEngine;
+using UnityUtils;
 
 namespace RogueLikeCardSystem.Game.Cards.Presenter
 {
@@ -20,6 +21,7 @@ namespace RogueLikeCardSystem.Game.Cards.Presenter
             this.View = view;
             view.OnClickEvent += OnClick;
             view.OnHoverEvent += OnHover;
+            UpdateView();
         }
 
         public void OnClick()
@@ -34,7 +36,7 @@ namespace RogueLikeCardSystem.Game.Cards.Presenter
 
         public async UniTask OnDraw()
         {
-            
+            View.SetActive();
         }
 
         public async UniTask OnDiscard()
@@ -70,6 +72,11 @@ namespace RogueLikeCardSystem.Game.Cards.Presenter
 
         }
 
+        public async UniTask OnMove(Transform target)
+        {
+            await View.RunMoveAnimation(target);
+        }
+
         public StatModifier<int> AddModifier(int amount, StatModifierType type, CardStatType stat)
         {
             var modifier = new StatModifier<int>(amount, type);
@@ -85,6 +92,11 @@ namespace RogueLikeCardSystem.Game.Cards.Presenter
         public void ClearModifier(CardStatType type) 
         {
             Model.data.Stats.Where(x => x.Data == type).FirstOrDefault().Value.ClearModifiers();
+        }
+
+        public void UpdateView()
+        {
+            View.UpdateView(Model.data.Name,Model.data.ResourceCost.ToString(), Model.data.ResourceCostValue.ToString(),Model.data.DescriptionText);
         }
     }
 }

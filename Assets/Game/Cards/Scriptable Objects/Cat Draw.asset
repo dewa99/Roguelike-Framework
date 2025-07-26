@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Cat Draw
   m_EditorClassIdentifier: 
   Data:
-    Name: Cat Draw
+    Name: Midnight Cat
     DescriptionText: Draw +3
     Stats:
       items:

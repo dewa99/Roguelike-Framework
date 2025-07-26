@@ -62,9 +62,7 @@ namespace RogueLikeCardSystem.Game.Cards.Manager
 
         public async UniTask DrawCard(ICardPresenter card)
         {
-            card.OnClicked -= PlayCard;
             card.OnClicked += PlayCard;
-            card.View.SetActive();
             await card.OnDraw();
         }
 
@@ -84,7 +82,6 @@ namespace RogueLikeCardSystem.Game.Cards.Manager
 
         public async UniTask PlayCard(ICardPresenter card)
         {
-           
             await card.OnPlay();
             await new UpdateResource(){Type = card.Model.data.ResourceCost, Amount = -card.Model.data.ResourceCostValue}.PerformAsync<bool>();
         }
