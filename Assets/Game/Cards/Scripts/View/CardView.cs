@@ -1,16 +1,14 @@
 using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Coffee.UIEffects;
-using Cysharp.Threading.Tasks;
 using Flexalon;
 using PrimeTween;
 using TMPro;
-using UnityEngine.Serialization;
+
 
 namespace RogueLikeCardSystem
 {
-    public class CardView : MonoBehaviour
+    public partial class CardView : MonoBehaviour
     {
         public event Action OnClickEvent;
         public event Action<bool> OnHoverEvent;
@@ -69,16 +67,5 @@ namespace RogueLikeCardSystem
             this.effect.text = effect;
         }
 
-        public async UniTask RunPlayAnimation()
-        {
-            await Sequence.Create()
-                .Group(Tween.ShakeLocalPosition(transform, new Vector3(5f,5f,5f) ,1f, 0.3f));
-        }
-
-        public async UniTask RunMoveAnimation(Transform target)
-        {
-            await Sequence.Create()
-                .Group(Tween.LocalPosition(this.transform, target.position, 0.3f, Ease.InQuad));
-        }
     }
 }

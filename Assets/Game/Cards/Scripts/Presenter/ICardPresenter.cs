@@ -15,7 +15,6 @@ namespace RogueLikeCardSystem
         void OnClick();
         void OnHover(bool state);
         UniTask OnDraw();
-        UniTask OnDiscard();
         UniTask OnPlay();
         UniTask OnMove(Transform target);
         StatModifier<int> AddModifier(int amount, StatModifierType type,CardStatType stat);

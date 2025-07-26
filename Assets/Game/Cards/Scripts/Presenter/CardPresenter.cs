@@ -39,11 +39,6 @@ namespace RogueLikeCardSystem.Game.Cards.Presenter
             View.SetActive();
         }
 
-        public async UniTask OnDiscard()
-        {
-            
-        }
-
         public async UniTask OnPlay()
         {
             Model.data.PlayConditions.ForEach(x =>
@@ -68,7 +63,6 @@ namespace RogueLikeCardSystem.Game.Cards.Presenter
             });
 
             await View.RunPlayAnimation();
-            await UniTask.CompletedTask;
 
         }
 
